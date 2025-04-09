@@ -12,12 +12,12 @@ export const RentalCardMotor = ({data}) => {
     return (
         <article>
             <h2 className='text-2xl font-medium mb-10'>Rental Motor</h2>
-            <div className='grid grid-cols-1 md:grid-cols-5'>
+            <div className='grid grid-cols-1 md:grid-cols-4 gap-20'>
                 {data && data.map((card, index) => (
                     <div key={index} className='relative w-full md:w-80 lg:w-80 p-5 shadow-xl rounded-lg'>
                         <div className='mt-7 p-5 shadow-sm rounded-lg'>
                             {card.images.length > 0 && (
-                                <img key={card.id} src={card.images[0]} alt='Gambar Motor' className='w-96'/>
+                                <img key={card.id} src={card.images[0]} alt='Gambar Motor' className='w-96 h-44 object-cover'/>
                             )}
                         </div>
                         <div className='absolute w-full top-0 inset-x-0 px-5 flex justify-between items-center'>
@@ -54,12 +54,12 @@ export const RentalCardMobil = ({data}) => {
     return (
         <article>
             <h2 className='text-2xl font-medium mb-10'>Rental Mobil</h2>
-            <div className='grid grid-cols-1 md:grid-cols-5'>
+            <div className='grid grid-cols-1 md:grid-cols-4 gap-20'>
                 {data && data.map((card, index) => (
-                    <div key={index} className='relative w-full md:w-80 lg:w-80 p-5 shadow-xl rounded-lg'>
+                    <div key={index} className='relative w-full md:w-80 lg:w-80 p-5 shadow-xl rounded-lg '>
                         <div className='mt-7 p-5 shadow-sm rounded-lg'>
                             {card.images && card.images.length > 0 && (
-                                <img key={card.id} src={card.images[0]} alt='Gambar Motor' className='w-96'/>
+                                <img key={card.id} src={card.images[0]} alt='Gambar Motor' className='w-96 h-44 object-cover'/>
                             )}
                         </div>
                         <div className='absolute w-full top-0 inset-x-0 px-5 flex justify-between items-center'>
