@@ -31,7 +31,7 @@ export default function AddVehicleModal({ onSubmit }) {
         ...prevVehicle,
         specs: {
           ...prevVehicle.specs,
-          [key]: key === "passengers" ? parseInt(value, 10) || 0 : value, // Pastikan passengers adalah angka
+          [key]: key === "passengers" ? parseInt(value, 10) : value, // Pastikan passengers adalah angka
         },
       }));
     } 
@@ -39,7 +39,7 @@ export default function AddVehicleModal({ onSubmit }) {
     else {
       setVehicle((prevVehicle) => ({
         ...prevVehicle,
-        [name]: name === "price_per_day" ? parseFloat(value) || 0 : value, // Pastikan price_per_day adalah angka
+        [name]: name === "price_per_day" ? parseFloat(value) : value, // Pastikan price_per_day adalah angka
       }));
     }
   };
@@ -70,7 +70,7 @@ export default function AddVehicleModal({ onSubmit }) {
     <div className="w-full relative">
         <button
             onClick={buttonModal}
-            className="bg-black/80 text-white p-1 rounded"
+            className="bg-black/80 hover:bg-orange-600 text-white p-1 rounded transition-all duration-100"
         >
             Tambah Kendaraan
         </button>
