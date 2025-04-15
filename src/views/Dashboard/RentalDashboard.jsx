@@ -3,6 +3,7 @@ import { addVehicle, deleteVehicle, getVehicle, updateVehicle } from "../../serv
 import RentalDashboardTable from "../../components/RentalDashboardTable";
 import UpdateVehicleModal from "../../components/UpdateVehicleModal"; // Import modal update
 import AddVehicleModal from "../../components/AddVehicleModal";
+import { toast, Toaster } from "sonner";
 
 export default function RentalDashboard() {
   const [category, setCategory] = useState("mobil"); // Default: mobil
@@ -26,15 +27,17 @@ export default function RentalDashboard() {
   const handleAddVehicle = async (vehicle) => {
     try {
       if (!vehicle.name) return;
-      const vehicleId = crypto.randomUUID(); // Generate ID otomatis
-      const newVehicle = { ...vehicle, id: vehicleId };
-
-      await addVehicle(category, newVehicle);
-      setVehicles((prev) => ({ ...prev, [vehicleId]: newVehicle })); // 🔹 Update state tanpa fetch ulang
+  
+      const newVehicle = await addVehicle(category, vehicle); // ID udah dari Firebase
+      setVehicles((prev) => ({ ...prev, [newVehicle.id]: newVehicle }));
+      toast.success(`Berhasil Menambahkan Kendaraan`, {
+        position: "top-center", duration: 2000,
+      })
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const handleUpdateVehicle = async (vehicleId, updatedData) => {
     try {
@@ -43,6 +46,9 @@ export default function RentalDashboard() {
         ...prev,
         [vehicleId]: { ...prev[vehicleId], ...updatedData },
       })); // 🔹 Perbarui state langsung
+      toast.success(`Berhasil Mengupdate Data ${vehicleId}`, {
+        position: "top-center", duration: 2000,
+      })
       setIsModalOpen(false);
     } catch (error) {
       console.error("Update error:", error);
@@ -57,13 +63,16 @@ export default function RentalDashboard() {
         delete newVehicles[vehicleId];
         return newVehicles;
       }); // 🔹 Hapus dari state langsung
+      toast.success(`Berhasil Menghapus Data ${vehicleId}`, {
+        position: "top-center", duration: 2000,
+      })
     } catch (error) {
       console.error("Delete error:", error);
     }
   };
 
   return (
-    <div className="p-10 space-y-10"> 
+    <div className="p-10 space-y-10 shadow-lg md:ml-12 min-h-screen"> 
       <h1 className="text-2xl font-bold mb-4">Rental Management</h1>
 
       <div className="flex gap-4 mb-4">
@@ -72,6 +81,8 @@ export default function RentalDashboard() {
       </div>
 
       <AddVehicleModal onSubmit={handleAddVehicle} />
+
+      <Toaster richColors/>
       <RentalDashboardTable 
         vehicles={vehicles} 
         onDelete={handleDeleteVehicle} 
