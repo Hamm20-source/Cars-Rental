@@ -1,4 +1,5 @@
 import React, {  useState } from 'react';
+import { toast } from 'sonner';
 import { signUpWithDatabase } from '../services/AuthService';
 import { Link, useNavigate } from 'react-router';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
