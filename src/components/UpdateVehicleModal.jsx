@@ -1,19 +1,22 @@
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import React, { useState } from "react";
 
 export default function UpdateVehicleModal({ vehicle, onClose, onSave }) {
     const [formData, setFormData] = useState({ ...vehicle });
+    const [imageInput, setImageInput] = useState("")
 
     function handleChange(e) {
         const { name, value } = e.target;
 
         setFormData((prev) => {
+
             if (name.startsWith("specs.")) {
                 const key = name.split(".")[1]; // Ambil bagian setelah "specs."
                     return {
                         ...prev,
                         specs: {
                             ...prev.specs,
-                            [key]: key === "passengers" ? parseInt(value, 10) || 0 : value,
+                            [key]: key === "passengers" ? parseInt(value, 10) : value,
                         }
                     }
             }; 
@@ -23,12 +26,42 @@ export default function UpdateVehicleModal({ vehicle, onClose, onSave }) {
             }
 
             if (name === "price_per_day") {
-              return { ...prev, price_per_day: parseFloat(value) || 0 };
+              return { ...prev, price_per_day: parseFloat(value)};
             }
 
             return {...prev, [name]: value}
         })
     }
+
+    function handleImageInput(e) {
+      setImageInput(e.target.value)
+    }
+
+    function addImages(e) {
+      if (e.key === "Enter" || e.type === "blur") {
+          e.preventDefault();
+          const newImages = imageInput
+              .split(",")
+              .map((url) => url.trim())
+              .filter((url) => url);
+
+          if (newImages.length > 0) {
+              setFormData((prev) => ({
+                  ...prev,
+                  images: [...prev.images, ...newImages],
+              }));
+              setImageInput(""); // Reset input setelah ditambahkan
+          }
+      }
+  }
+
+    function removeIndexImage(index) {
+      setFormData((prev) => ({
+        ...prev,
+        images: prev.images.filter((_, i) => i !== index)
+      }))
+    }
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -60,16 +93,33 @@ export default function UpdateVehicleModal({ vehicle, onClose, onSave }) {
                   className="border border-gray-400 p-2 rounded" 
                 />
 
-                {/* <label className="block text-sm font-medium">Gambar Kendaraan*</label>
+                <label className="block text-sm font-medium">Gambar Kendaraan*</label>
+                <div className="flex gap-5 flex-wrap">
+                  {formData.images?.map((img, index) => (
+                    <div key={index} className="relative">
+                      <img 
+                        src={img} 
+                        alt={`Preview ${index + 1}`} 
+                        className="w-20 h-20 object-cover shadow-md"
+                      />
+                      <button 
+                        onClick={() => removeIndexImage(index)}
+                        className="absolute -top-2 -right-4 bg-black p-1 text-xs text-white  rounded-full">
+                        <XMarkIcon className="w-4"/>
+                      </button>
+                    </div>
+                  ))}
+                </div>
                 <input 
-                  type="file"  
-                  name="file" 
-                  placeholder="Gambar Kendaraan" 
-                  value={formData.image} 
-                  onChange={handleChange} 
+                  type="text"
+                  name="images"
+                  placeholder="Tambahkan gambar, pisahkan dengan koma"
+                  value={imageInput}
+                  onChange={handleImageInput}
+                  onBlur={addImages}
+                  onKeyDown={addImages}
                   className="border border-gray-400 p-2 rounded" 
-                  required
-                /> */}
+                />
 
                 <label className="block text-sm font-medium">Harga Sewa*</label>
                 <input 
