@@ -3,11 +3,18 @@ import api from "./AxiosInstance";
 export const addVehicle = async (category, vehicleData) => {
     try {
         const response = await api.post(`/rentals/${category}.json`, vehicleData);
-        return { id: response.data.name, ...vehicleData };
+        const id = response.data.name;
+        const vehicleWithId = { ...vehicleData, id };
+
+        // Update data yang baru ditambahkan dengan ID-nya sendiri
+        await api.patch(`/rentals/${category}/${id}.json`, { id });
+
+        return vehicleWithId;
     } catch (error) {
         console.error("Gagal Menambah Kendaraan", error);
     }
 };
+
 
 export const getVehicle = async (category) => {
     try {
