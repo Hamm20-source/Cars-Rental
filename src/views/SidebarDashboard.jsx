@@ -25,10 +25,9 @@ export default function SidebarDashboard({ open, setOpen }) {
             <ul className="space-y-5 font-medium">
                 <SidebarItem icon={<HomeIcon className="w-6 h-6"/>} text="Dashboard" open={open} />
                 <SidebarItem icon={<ViewColumnsIcon className="w-6 h-6"/>} text="Banner" open={open} />
-                <SidebarItem icon={<RectangleStackIcon className="w-6 h-6"/>} text="Categories" open={open} />
                 <SidebarItem icon={<TagIcon className="w-6 h-6"/>} text="Discounts" open={open} />
                 <SidebarItem icon={<TruckIcon className="w-6 h-6"/>} text="Rental" open={open} link="/adminDashboard/rentals" />
-                <SidebarItem icon={<UserIcon className="w-6 h-6"/>} text="Users" open={open} />
+                <SidebarItem icon={<UserIcon className="w-6 h-6"/>} text="Users" open={open} link="/adminDashboard/users"/>
             </ul>
         </div>
     );
