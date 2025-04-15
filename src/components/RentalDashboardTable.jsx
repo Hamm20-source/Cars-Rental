@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
 
 export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleOpenModal = (id) => {
+    setOpenModal(true)
+    setSelectedId(id);
+  };
+
+  const handleConfirmModal = () => {
+    setOpenModal(false)
+    onDelete(selectedId)
+  };
+
+  const selectedVehicleName =  vehicles[selectedId]?.name || ""
+
     return (
               <div className="overflow-x-auto ">
-                <table className="w-full table-auto border text-center text-gray-600">
-                    <thead>
+                <table className="w-full table-auto  text-center text-gray-600">
+                  {vehicles && Object.keys(vehicles).length > 0 ? (
+                    <>
+                    <thead className="border">
                         <tr>
                           {["ID", "Image", "Name", "location", "Price", "Available", "Edit", "Delete"].map((header) => (
                             <th
@@ -18,7 +35,7 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                         </tr>
                     </thead>
                     <tbody>
-                      {vehicles ? Object.keys(vehicles).map((vehicleId) => (
+                      {Object.keys(vehicles).map((vehicleId) => (
                           <tr key={vehicleId} className="border">
                             <td className="border p-2">{vehicles[vehicleId].id}</td>
                             <td className="border p-2">
@@ -38,14 +55,42 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                               </button>
                             </td>
                             <td className="border p-2 text-center">
-                              <button onClick={() => onDelete(vehicleId)} className="bg-red-300 p-1 rounded-md">
+                              <button onClick={() => handleOpenModal(vehicleId)} className="bg-red-300 p-1 rounded-md">
                                 <TrashIcon className="w-5"/>
                               </button>
                             </td>
                           </tr>
-                      )) : <p>Tidak ada kendaraan.</p>}
+                      ))}
                     </tbody>
+                    </>
+                  ) : (
+                    <p>Tidak ada Kendaraan yang tersedia.</p>
+                  )}
                 </table>
+
+                {
+                  openModal && (
+                    <div className="fixed inset-0 z-50 bg-white/10 backdrop-blur-sm flex justify-center items-center">
+                        <div className="text-center bg-white shadow-lg p-10 space-y-10 rounded-lg">
+                            <h1>Apakah anda ingin Menghapus data {selectedVehicleName}?</h1>
+                            <div className="flex justify-between items-center">
+                              <button 
+                                onClick={handleConfirmModal}
+                                className="px-6 py-2 bg-blue-500 text-white font-medium"
+                              >
+                                Ya
+                              </button>
+                              <button 
+                                onClick={() => setOpenModal(false)}
+                                className="px-3 py-2 bg-red-500 text-white font-medium"
+                              >
+                                Tidak
+                              </button>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                }
               </div>
     )
 }
