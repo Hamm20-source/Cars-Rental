@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router";
 
-export default function ProtectedRoute({ children }) {
+const ProtectedRoute = ({ children }) => {
     const token = localStorage.getItem("token");
     const tokenExpiration = localStorage.getItem("token_expiration");
 
@@ -15,4 +15,15 @@ export default function ProtectedRoute({ children }) {
     }
 
     return children;
-}
+};
+
+const AdminRoute = ({children}) => {
+    const role = localStorage.getItem("role");
+    if (role !== "admin") {
+        return <Navigate to="/" replace/>
+    }
+    return children;
+};
+
+export default ProtectedRoute;
+export {AdminRoute};
