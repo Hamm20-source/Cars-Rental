@@ -10,7 +10,9 @@ const Navbar = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) {
+        const expiration = localStorage.getItem("token_expiration")
+
+        if (token && expiration && Date.now() < parseInt(expiration)) {
             const username = localStorage.getItem("name")
             const profileImage = localStorage.getItem("profileImage")
             const role = localStorage.getItem("role")
@@ -20,6 +22,9 @@ const Navbar = () => {
                 roles: role,
                 image : profileImage || "https://img.icons8.com/material-outlined/user--v1.png"
             })
+        } else {
+            localStorage.clear();
+            setUser(null)
         }
     }, []);
 
