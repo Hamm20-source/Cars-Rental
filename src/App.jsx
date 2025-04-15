@@ -49,8 +49,8 @@ function MainDashboards({Dashboard}) {
     <SidebarDashboard open={open} setOpen={setOpen} />
 
     {/* Konten Utama */}
-    <div className={`flex-1 w-full md:top-0 px-5 md:p-10 md:ml-0 ml-8 transition-all duration-300 ease-in-out 
-        ${open ? "md:ml-64" : ""}`}>
+    <div className={`flex-1 w-96  md:top-0 px-5 md:p-10 md:ml-0 ml-8 transition-all duration-300 ease-in-out 
+        ${open ? "md:ml-44" : ""}`}>
         <Routes>
             {Dashboard && Dashboard.map((route, index) => (
                 <Route key={index} path={route.path.replace("/adminDashboard", "")} element={route.element} />
