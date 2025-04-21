@@ -22,12 +22,12 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                 <table className="w-full table-auto  text-center text-gray-600">
                   {vehicles && Object.keys(vehicles).length > 0 ? (
                     <>
-                    <thead className="border">
+                    <thead>
                         <tr>
                           {["ID", "Image", "Name", "location", "Price", "Available", "Edit", "Delete"].map((header) => (
                             <th
                               key={header}
-                              className="border-b border-gray-200 bg-gray-100 text-gray-800  p-4  font-semibold text-sm"
+                              className="bg-gray-200 text-gray-800  p-4  font-semibold text-sm"
                               >
                               {header}
                             </th>
@@ -35,26 +35,26 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                         </tr>
                     </thead>
                     <tbody>
-                      {Object.keys(vehicles).map((vehicleId) => (
-                          <tr key={vehicleId} className="border">
-                            <td className="border p-2">{vehicles[vehicleId].id}</td>
-                            <td className="border p-2">
+                      {Object.keys(vehicles).map((vehicleId, index) => (
+                          <tr key={vehicleId} className={`${index % 2 === 0 ? 'bg-white': 'bg-blue-100'}`}>
+                            <td className="p-2">{vehicles[vehicleId].id}</td>
+                            <td className="p-2">
                               {vehicles[vehicleId].images && vehicles[vehicleId].images.length > 0 ? (
-                                <img src={vehicles[vehicleId].images[0]} alt={`Image of ${vehicles[vehicleId].name}`} className="w-20 object-cover mx-auto" />
+                                <img src={vehicles[vehicleId].images[0]} alt={`Image of ${vehicles[vehicleId].name}`} className="w-20 h-20 object-cover mx-auto" />
                               ) : (
                                 <p className="text-gray-500">Images for {vehicles[vehicleId].name} not uploaded</p>
                               )}
                             </td>
-                            <td className="border p-2">{vehicles[vehicleId].name}</td>
-                            <td className="border p-2">{vehicles[vehicleId].location || `Locate For ${vehicles[vehicleId].name} not specified`}</td>
-                            <td className="border p-2">Rp{Number(vehicles[vehicleId].price_per_day).toLocaleString('id-ID')}</td>
-                            <td className="border p-2">{vehicles[vehicleId].available ? "Tersedia" : "Belum Tersedia"}</td>
-                            <td className="border p-2 text-center">
+                            <td className="p-2">{vehicles[vehicleId].name}</td>
+                            <td className="p-2">{vehicles[vehicleId].location || `Locate For ${vehicles[vehicleId].name} not specified`}</td>
+                            <td className="p-2">Rp{Number(vehicles[vehicleId].price_per_day).toLocaleString('id-ID')}</td>
+                            <td className="p-2">{vehicles[vehicleId].available ? "Tersedia" : "Belum Tersedia"}</td>
+                            <td className="p-2 text-center">
                               <button onClick={() => onUpdate(vehicleId)} className="bg-green-300 p-1 rounded-md">
                                 <PencilIcon className="w-5"/>
                               </button>
                             </td>
-                            <td className="border p-2 text-center">
+                            <td className="p-2 text-center">
                               <button onClick={() => handleOpenModal(vehicleId)} className="bg-red-300 p-1 rounded-md">
                                 <TrashIcon className="w-5"/>
                               </button>
