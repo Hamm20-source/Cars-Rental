@@ -54,11 +54,11 @@ export default function UserDashboard() {
       <div className='overflow-x-auto'>
         <table className='w-full table-auto text-center text-gray-600'>
           <thead>
-            <tr className='border'>
+            <tr>
                {["ID", "Created At", "Email", "Name", "Role", "Image", "Delete"].map((header) => (
                   <th
                     key={header}
-                    className="border-b border-gray-200 bg-gray-100 text-gray-800  p-4  font-semibold text-sm"
+                    className="bg-gray-200 text-gray-800  p-4  font-semibold text-sm"
                   >
                     {header}
                   </th>
@@ -66,17 +66,17 @@ export default function UserDashboard() {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(user).map(([id, users]) => (
-              <tr key={id} className="border">
-                <td className="border p-2">{users.id}</td>
-                <td className="border p-2">{users.created_at.slice(0, 10)}</td>
-                <td className="border p-2">{users.email}</td>
-                <td className="border p-2">{users.name}</td>
-                <td className="border p-2">{users.role}</td>
-                <td className="border p-2">
-                    <img src={users.image || "https://img.icons8.com/material-outlined/user--v1.png"} alt={`Image ${users.name} not Upload`} className="w-10 object-cover mx-auto" />
+            {Object.entries(user).map(([id, users], index) => (
+              <tr key={id} className={`${index % 2 === 0 ? "bg-white" : "bg-blue-100"}`}>
+                <td className="p-2">{users.id}</td>
+                <td className="p-2">{users.created_at.slice(0, 10)}</td>
+                <td className="p-2">{users.email}</td>
+                <td className="p-2">{users.name}</td>
+                <td className="p-2">{users.role}</td>
+                <td className="p-2">
+                    <img src={users.image || "https://img.icons8.com/material-outlined/user--v1.png"} alt={`Image ${users.name} not Upload`} className="w-20 h-20 object-cover mx-auto" />
                 </td>
-                <td className="border p-2 text-center">
+                <td className="p-2 text-center">
                     <Toaster/>
                     <button onClick={() => buttonshowModal(id)} className="bg-red-300 p-1 rounded-md">
                         <TrashIcon className="w-5"/>
