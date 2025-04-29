@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bars3Icon, XMarkIcon, HomeIcon, TagIcon, UserIcon, TruckIcon, ViewColumnsIcon, RectangleStackIcon } from '@heroicons/react/24/solid';
+import { Bars3Icon, XMarkIcon, HomeIcon, UserIcon, TruckIcon, ViewColumnsIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router';
 
 export default function SidebarDashboard({ open, setOpen }) {
@@ -25,7 +25,6 @@ export default function SidebarDashboard({ open, setOpen }) {
             <ul className="space-y-5 font-medium">
                 <SidebarItem icon={<HomeIcon className="w-6 h-6"/>} text="Dashboard" open={open} />
                 <SidebarItem icon={<ViewColumnsIcon className="w-6 h-6"/>} text="Banner" open={open} />
-                <SidebarItem icon={<TagIcon className="w-6 h-6"/>} text="Discounts" open={open} />
                 <SidebarItem icon={<TruckIcon className="w-6 h-6"/>} text="Rental" open={open} link="/adminDashboard/rentals" />
                 <SidebarItem icon={<UserIcon className="w-6 h-6"/>} text="Users" open={open} link="/adminDashboard/users"/>
             </ul>
