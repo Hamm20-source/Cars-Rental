@@ -1,19 +1,27 @@
 import React, { useState } from "react";
-import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
+import DiscountModal from "./DiscountModal";
+import { PencilIcon, PercentBadgeIcon, TrashIcon } from "@heroicons/react/20/solid";
 
 export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [openDiscount, setOpenDiscount] = useState(false);
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
 
   const handleOpenModal = (id) => {
-    setOpenModal(true)
+    setOpenModal(true);
     setSelectedId(id);
   };
 
   const handleConfirmModal = () => {
-    setOpenModal(false)
-    onDelete(selectedId)
+    setOpenModal(false);
+    onDelete(selectedId);
   };
+
+  const handleOpenDiscount = (vehicleId) => {
+    setSelectedVehicleId(vehicleId);
+    setOpenDiscount(true);
+  }
 
   const selectedVehicleName =  vehicles[selectedId]?.name || ""
 
@@ -24,7 +32,7 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                     <>
                     <thead>
                         <tr>
-                          {["ID", "Image", "Name", "location", "Price", "Available", "Edit", "Delete"].map((header) => (
+                          {["ID", "Image", "Name", "location", "Price", "Available","Discount", "Edit", "Delete"].map((header) => (
                             <th
                               key={header}
                               className="bg-gray-200 text-gray-800  p-4  font-semibold text-sm"
@@ -50,7 +58,12 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                             <td className="p-2">Rp{Number(vehicles[vehicleId].price_per_day).toLocaleString('id-ID')}</td>
                             <td className="p-2">{vehicles[vehicleId].available ? "Tersedia" : "Belum Tersedia"}</td>
                             <td className="p-2 text-center">
-                              <button onClick={() => onUpdate(vehicleId)} className="bg-green-300 p-1 rounded-md">
+                              <button onClick={() => handleOpenDiscount(vehicleId)} className="bg-green-300 p-1 rounded-md">
+                                <PercentBadgeIcon className="w-6"/>
+                              </button>
+                            </td>
+                            <td className="p-2 text-center">
+                              <button onClick={() => onUpdate(vehicleId)} className="bg-blue-300 p-1 rounded-md">
                                 <PencilIcon className="w-5"/>
                               </button>
                             </td>
@@ -68,8 +81,7 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                   )}
                 </table>
 
-                {
-                  openModal && (
+                {openModal && (
                     <div className="fixed inset-0 z-50 bg-white/10 backdrop-blur-sm flex justify-center items-center">
                         <div className="text-center bg-white shadow-lg p-10 space-y-10 rounded-lg">
                             <h1>Apakah anda ingin Menghapus data {selectedVehicleName}?</h1>
@@ -89,8 +101,15 @@ export default function RentalDashboardTable({vehicles, onDelete, onUpdate}) {
                             </div>
                         </div>
                     </div>
-                  )
-                }
+                  )}
+
+              {openDiscount && (
+                <DiscountModal
+                  vehicleId={selectedVehicleId}
+                  onClose={() => setOpenDiscount(false)}
+                />
+              )}
+
               </div>
     )
 }
